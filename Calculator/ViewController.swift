@@ -9,12 +9,125 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var screenLabel: UILabel!
+    @IBOutlet weak var clearButton: UIButton!
+    @IBOutlet weak var posNegButton: UIButton!
+    @IBOutlet weak var percentageButton: UIButton!
+    @IBOutlet weak var divideButton: UIButton!
+    @IBOutlet weak var multiplyButton: UIButton!
+    @IBOutlet weak var subtractButton: UIButton!
+    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var calculateButton: UIButton!
+    
+    @IBOutlet var numbersButtons: [UIButton]!
+    @IBOutlet var operatorButtons: [UIButton]!
+    
+    var previousButtonPressedText = ""
+    var numbersToCalculate: [Double] = []
+    var currentNumString = ""
+    var requestedMathOps: [String] = []
+    let mathOperators = ["/","x","-","+"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
+    @IBAction func numberPressed(_ sender: UIButton) {
+        let numText = sender.currentTitle!
+        currentNumString += numText
+        previousButtonPressedText = numText
+        screenLabel.text = currentNumString
+    }
+    
+    @IBAction func operatorPressed(_ sender: UIButton) {
 
+        let mathOp = sender.currentTitle!
+        
+        if mathOperators.contains(previousButtonPressedText) {
+            requestedMathOps.remove(at: (requestedMathOps.count - 1))
+        }
+        requestedMathOps.append(mathOp)
+    
+        if let number = Double(currentNumString) {
+            numbersToCalculate.append(number)
+            print(number)
+            currentNumString = ""
+            previousButtonPressedText = mathOp
+        }
+    }
+
+    @IBAction func equalPressed(_ sender: UIButton) {
+        
+        let result = calculate()
+        
+        // check to see if the result is a whole number and if so, print as Int (instead of Double)
+        if result == Double(Int(result)){
+            screenLabel.text = String(Int(result))
+        } else {
+            screenLabel.text = String(result)
+        }
+        currentNumString = ""
+        numbersToCalculate = [result]
+        requestedMathOps = []
+    }
+    
+    @IBAction func clearPressed(_ sender: UIButton) {
+        clearCalculator()
+    }
+    
+    @IBAction func posNegPressed(_ sender: UIButton) {
+        
+        if mathOperators.contains(previousButtonPressedText) {
+            clearCalculator()
+        }
+        changeSign()
+    }
+    @IBAction func percentagePressed(_ sender: UIButton) {
+        if let number = Double(currentNumString) {
+            let dividedBy100 = number / 100
+            currentNumString = "\(dividedBy100)"
+            screenLabel.text = currentNumString
+        }
+    }
+    
+    func clearCalculator() {
+        previousButtonPressedText = ""
+        numbersToCalculate = []
+        currentNumString = ""
+        requestedMathOps = []
+        screenLabel.text = "0"
+    }
+    
+    func changeSign() {
+        if let number = Double(currentNumString) {
+            let opposite = number * -1
+            print(opposite)
+            currentNumString = "\(opposite)"
+            screenLabel.text = currentNumString
+        }
+    }
+    
+    func calculate() -> Double {
+        
+        if let number = Double(currentNumString) {
+            numbersToCalculate.append(number)
+            print(number)
+        }
+        
+        var result = numbersToCalculate[0]
+        
+        for index in (1...numbersToCalculate.count - 1) {
+            
+            switch requestedMathOps[index-1] {
+            case "/": result /= numbersToCalculate[index]
+            case "x": result *= numbersToCalculate[index]
+            case "-": result -= numbersToCalculate[index]
+            case "+": result += numbersToCalculate[index]
+            default: result += 0
+            }
+        }
+        return result
+    }
 }
-
