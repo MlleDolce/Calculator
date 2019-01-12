@@ -290,15 +290,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="addButton" destination="JoO-5Z-SU6" id="GKp-ep-FlK"/>
-                        <outlet property="calculateButton" destination="Mo7-fk-Ka6" id="AFg-Cj-MuL"/>
-                        <outlet property="clearButton" destination="H6x-hv-aoJ" id="qc7-Dh-one"/>
-                        <outlet property="divideButton" destination="rb7-Yl-stz" id="ecB-05-dpJ"/>
-                        <outlet property="multiplyButton" destination="UqZ-iU-wrW" id="f4g-go-Cm3"/>
-                        <outlet property="percentageButton" destination="Fzt-cA-YBc" id="IHu-d5-efb"/>
-                        <outlet property="posNegButton" destination="d79-NI-qWU" id="SvZ-cd-aAV"/>
                         <outlet property="screenLabel" destination="kZd-yi-o78" id="ioi-ht-eB5"/>
-                        <outlet property="subtractButton" destination="oKX-fc-aod" id="pcE-KD-EWn"/>
                         <outletCollection property="numbersButtons" destination="iH7-bx-yoy" collectionClass="NSMutableArray" id="shD-rc-VMH"/>
                         <outletCollection property="numbersButtons" destination="wkl-GQ-b0F" collectionClass="NSMutableArray" id="7Ds-fl-MOa"/>
                         <outletCollection property="numbersButtons" destination="L4s-Cr-KqW" collectionClass="NSMutableArray" id="Gu6-SE-MoX"/>

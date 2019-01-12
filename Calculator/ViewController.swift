@@ -11,14 +11,6 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet weak var screenLabel: UILabel!
-    @IBOutlet weak var clearButton: UIButton!
-    @IBOutlet weak var posNegButton: UIButton!
-    @IBOutlet weak var percentageButton: UIButton!
-    @IBOutlet weak var divideButton: UIButton!
-    @IBOutlet weak var multiplyButton: UIButton!
-    @IBOutlet weak var subtractButton: UIButton!
-    @IBOutlet weak var addButton: UIButton!
-    @IBOutlet weak var calculateButton: UIButton!
     
     @IBOutlet var numbersButtons: [UIButton]!
     @IBOutlet var operatorButtons: [UIButton]!
@@ -35,6 +27,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction func numberPressed(_ sender: UIButton) {
+        
+        if previousButtonPressedText == "=" {
+            currentNumString = ""
+        }
+        
         let numText = sender.currentTitle!
         currentNumString += numText
         previousButtonPressedText = numText
@@ -48,6 +45,7 @@ class ViewController: UIViewController {
         if mathOperators.contains(previousButtonPressedText) {
             requestedMathOps.remove(at: (requestedMathOps.count - 1))
         }
+        
         requestedMathOps.append(mathOp)
     
         if let number = Double(currentNumString) {
@@ -68,8 +66,9 @@ class ViewController: UIViewController {
         } else {
             screenLabel.text = String(result)
         }
-        currentNumString = ""
-        numbersToCalculate = [result]
+        previousButtonPressedText = "="
+        currentNumString = "\(result)"
+        numbersToCalculate = []
         requestedMathOps = []
     }
     
@@ -102,10 +101,17 @@ class ViewController: UIViewController {
     
     func changeSign() {
         if let number = Double(currentNumString) {
+            
             let opposite = number * -1
             print(opposite)
+            
             currentNumString = "\(opposite)"
-            screenLabel.text = currentNumString
+            
+            if opposite == Double(Int(opposite)) {
+                screenLabel.text = String(Int(opposite))
+            } else {
+                screenLabel.text = currentNumString
+            }
         }
     }
     
